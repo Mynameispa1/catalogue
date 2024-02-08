@@ -74,7 +74,7 @@ pipeline {
                     ]
                 )
             }
-        }
+        }    
 
         stage('Test') { 
             steps {
@@ -89,6 +89,10 @@ pipeline {
                 """ 
             }
         }
+
+    } 
+
+}
 
     //     stage('check params'){
     //         steps {
