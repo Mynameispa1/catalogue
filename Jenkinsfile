@@ -1,33 +1,30 @@
 pipeline {
     agent {
-    node {
-        label 'Agent-1'
+        node {
+            label 'AGENT-1'
         }
     }
-
-      environment { 
+    environment { 
         packageVersion = ''
-        nexusURL = '172.31.84.200:8081'
+        nexusURL = '172.31.5.95:8081'
     }
-
-     options {
+    options {
         timeout(time: 1, unit: 'HOURS')
-        disableConcurrentBuilds()       //to run only one build at a time
+        disableConcurrentBuilds()
     }
+    parameters {
+        // string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
 
-    // parameters {
-    //     string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+        // text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
 
-    //     text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+        booleanParam(name: 'Deploy', defaultValue: false, description: 'Toggle this value')
 
-    //     booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+        // choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
 
-    //     choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
-
-    //     password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-    //}
-  // Build stage
-     stages {
+        // password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
+    }
+    // build
+    stages {
         stage('Get the version') {
             steps {
                 script {
@@ -37,25 +34,36 @@ pipeline {
                 }
             }
         }
-
-         stage('Install dependencies') { 
+        stage('Install dependencies') {
             steps {
                 sh """
-                  npm install
+                    npm install
                 """
             }
         }
-
-        stage('Build') { 
+        stage('Unit tests') {
             steps {
                 sh """
-                ls -la
-                zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
-                ls -la
+                    echo "unit tests will run here"
                 """
             }
         }
-
+        stage('Sonar Scan'){
+            steps{
+                sh """
+                    sonar-scanner
+                """
+            }
+        }
+        stage('Build') {
+            steps {
+                sh """
+                    ls -la
+                    zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
+                    ls -ltr
+                """
+            }
+        }
         stage('Publish Artifact') {
             steps {
                  nexusArtifactUploader(
@@ -74,36 +82,8 @@ pipeline {
                     ]
                 )
             }
-        }    
-
-        stage('Test') { 
-            steps {
-                echo 'Testing..'
-            }
         }
-       
-    } 
-
-}
-
-    //     stage('check params'){
-    //         steps {
-    //             sh """
-    //                 echo "Hello ${params.PERSON}"
-
-    //                 echo "Biography: ${params.BIOGRAPHY}"
-
-    //                 echo "Toggle: ${params.TOGGLE}"
-
-    //                 echo "Choice: ${params.CHOICE}"
-
-    //                 echo "Password: ${params.PASSWORD}"
-    //             """
-    //         }
-    //     }
-     
-
-      stage('Deploy') {
+        stage('Deploy') {
             when {
                 expression{
                     params.Deploy == 'true'
@@ -119,23 +99,21 @@ pipeline {
                     }
             }
         }
-
-    //post build
+    }
+    // post build
     post { 
         always { 
             echo 'I will always say Hello again!'
             deleteDir()
         }
-
         failure { 
-            echo 'This is Failed...!'
+            echo 'this runs when pipeline is failed, used generally to send some alerts'
         }
-
-        success {
-            echo 'This is success...!'
+        success{
+            echo 'I will say Hello when pipeline is success'
         }
     }
-  
+}
 
 
 
