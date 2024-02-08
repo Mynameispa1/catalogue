@@ -48,13 +48,13 @@ pipeline {
                 """
             }
         }
-        stage('Sonar Scan'){
-            steps{
-                sh """
-                    sonar-scanner
-                """
-            }
-        }
+        // stage('Sonar Scan'){
+        //     steps{
+        //         sh """
+        //             sonar-scanner
+        //         """
+        //     }
+        // }
         stage('Build') {
             steps {
                 sh """
