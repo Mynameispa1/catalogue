@@ -81,15 +81,7 @@ pipeline {
                 echo 'Testing..'
             }
         }
-        stage('Deploy') { 
-            steps {
-                sh """
-                echo "Here I wrote shell script"
-               
-                """ 
-            }
-        }
-
+       
     } 
 
 }
@@ -109,7 +101,7 @@ pipeline {
     //             """
     //         }
     //     }
-     }
+     
 
       stage('Deploy') {
             when {
@@ -127,7 +119,7 @@ pipeline {
                     }
             }
         }
-    }
+
     //post build
     post { 
         always { 
@@ -143,7 +135,9 @@ pipeline {
             echo 'This is success...!'
         }
     }
-}    
+  
+
+
 
 
    
