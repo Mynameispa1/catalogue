@@ -12,7 +12,7 @@ pipeline {
 
      options {
         timeout(time: 1, unit: 'HOURS')
-        disableConcurrentBuilds()       #to run only one build at a time
+        disableConcurrentBuilds()       //to run only one build at a time
     }
 
     parameters {
@@ -37,7 +37,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Test') { 
             steps {
                 echo 'Testing..'
