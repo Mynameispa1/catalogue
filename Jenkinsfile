@@ -50,6 +50,8 @@ pipeline {
             steps {
                 sh """
                 ls -la
+                zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
+                ls -la
                 """
             }
         }
@@ -89,6 +91,7 @@ pipeline {
     post { 
         always { 
             echo 'I will always say Hello again!'
+            deleteDir()
         }
 
         failure { 
