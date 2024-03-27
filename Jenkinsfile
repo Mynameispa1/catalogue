@@ -43,6 +43,13 @@ pipeline {
                 """
             }
         }
+            stage('Build') { 
+            steps {
+                sh """
+                  ls -la
+                """
+            }
+        }
         stage('Deploy') { 
             steps {
                 sh '''
