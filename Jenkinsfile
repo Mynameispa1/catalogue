@@ -60,6 +60,7 @@ pipeline {
             }
         }
         stage('Deploy') {
+            steps {
            sh """
                     echo ' I am writing shell command'
               """
