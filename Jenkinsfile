@@ -84,11 +84,20 @@ pipeline {
             }
         }
         stage('Deploy') {
-            // when {
-            //     expression{
-            //         params.Deploy == 'true'
-            //     }
-            // }
+            when {
+                expression{
+                    params.Deploy == 'true'
+                }
+            }
+            steps {
+                script {
+                        def params = [
+                            string(name: 'version', value: "$packageVersion"),
+                            string(name: 'environment', value: "dev")
+                        ]
+                        build job: "catalogue-deploy", wait: true, parameters: params
+                    }
+            }
         }
     }
     // post build
@@ -105,8 +114,3 @@ pipeline {
         }
     }
 }
-
-
-
-
-   
