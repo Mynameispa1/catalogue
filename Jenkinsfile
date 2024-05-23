@@ -6,22 +6,11 @@ pipeline {
     }
     environment { 
         packageVersion = ''
-        nexusURL = '172.31.84.200:8081'
+        nexusURL = '172.31.36.12:8081'
     }
     options {
         timeout(time: 1, unit: 'HOURS')
         disableConcurrentBuilds()
-    }
-    parameters {
-        // string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-
-        // text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
-
-        booleanParam(name: 'Deploy', defaultValue: false, description: 'Toggle this value')
-
-        // choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
-
-        // password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
     }
     // build
     stages {
@@ -41,6 +30,7 @@ pipeline {
                 """
             }
         }
+        
         stage('Build') {
             steps {
                 sh """
@@ -70,11 +60,9 @@ pipeline {
             }
         }
         stage('Deploy') {
-           steps{
-             sh """
-                echo "I am writing shell commands"
+           sh """
+                    echo ' I am writing shell command'
               """
-           }
         }
     }
     // post build
@@ -91,8 +79,3 @@ pipeline {
         }
     }
 }
-
-
-
-
-   
