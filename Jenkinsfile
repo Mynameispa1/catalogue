@@ -71,8 +71,8 @@ pipeline {
         }
         stage('Deploy') {
            steps{
-              """
-                    echo "I am writing shell commands"
+             sh """
+                echo "I am writing shell commands"
               """
            }
         }
