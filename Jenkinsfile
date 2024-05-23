@@ -84,11 +84,11 @@ pipeline {
             }
         }
         stage('Deploy') {
-            // when {
-            //     expression{
-            //         params.Deploy == 'true'
-            //     }
-            // }
+            when {
+                expression{
+                    params.Deploy == 'true'
+                }
+            }
             steps {
                 script {
                         def params = [
@@ -114,8 +114,3 @@ pipeline {
         }
     }
 }
-
-
-
-
-   
